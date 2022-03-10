@@ -1,3 +1,6 @@
+// Data compression demo on WSN 2022 Spring 
+// Author: Haoran Li Au703092
+
 #include "contiki.h"
 #include "stdlib.h"
 #include <math.h>
