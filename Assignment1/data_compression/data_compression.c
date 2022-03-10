@@ -6,7 +6,7 @@
 # define sig_len 512
 # define trans_len 8 
 # define coef_len 4
-#define NAN (0.0/0.0)
+# define NAN (0.0/0.0)
 
 // static const double S[] = {
 //   0.353553390593273762200422,

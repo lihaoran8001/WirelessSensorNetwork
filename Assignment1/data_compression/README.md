@@ -1,19 +1,30 @@
-A minimal Contiki-NG example, simple printing out "Hello, world".
-This example runs a full IPv6 stack with 6LoWPAN and RPL.
-It is possible, for example to ping such a node:
+A DCT-II compressioin encoding method implemented on TelosB Mote, and also can be executed in Cooja.
 
+In data_compression.c, I implement two modes of compression. 
+
+First is original one. I use hard-coded DCT matrix (8x8) and leverage matrix multiplication to achieve encoding. To RUN in this mode, we need to UNCOMMENT variable `dct_mtx` and `ecg_sig`. Function `mul_mtx` and `PrintFloat` are also called to process data and doing display. UNCOMMENT line145-149 to execute in  this mode. 
+```c
+// use hard-coded matrix
+    float result[trans_len][1];
+    mul_mtx(dct_mtx, ecg_sig+i*trans_len, result, trans_len, trans_len, trans_len, 1);
+    for(j = 0; j < trans_len; j++){
+      PrintFloat(result[j][0]);
+    }
 ```
-make TARGET=native && sudo ./hello-world.native
+Other functions and static variables can be commented to improve performance and avoid ROM overflow.
+
+Second one is fast DCT transform. In this mode, we don't need `dct_mtx` and `ecg_sig`. Instead, we use `ecg_sig_2` and  `FastDct8_transform` function, which needs static variable `S` and `A`.  To run in this mode, we need to UNCOMMENT line 140-143.
+
+```c
+	// use fast dct algorithm     
+		 FastDct8_transform(ecg_sig_2+(i*trans_len));
+     for(j = 0; j < 8; j++){
+       PrintFloat((ecg_sig_2+(i*trans_len))[j]);
+     }
 ```
 
-Look for the node's global IPv6, e.g.:
-```
-[INFO: Native    ] Added global IPv6 address fd00::302:304:506:708
-```
+We can also adjust the coefficient length to achieve higher/lower compression loss.
 
-And ping it (over the tun interface):
-```
-$ ping6 fd00::302:304:506:708
-PING fd00::302:304:506:708(fd00::302:304:506:708) 56 data bytes
-64 bytes from fd00::302:304:506:708: icmp_seq=1 ttl=64 time=0.289 ms
-```
+This program will print all the compression data and also count execution time.
+
+On average, fast DCT algorithm is twice faster than matrix method. 
