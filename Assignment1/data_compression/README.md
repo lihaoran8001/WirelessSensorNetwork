@@ -17,7 +17,7 @@ Second one is fast DCT transform. In this mode, we don't need `dct_mtx` and `ecg
 
 ```c
 	// use fast dct algorithm     
-		 FastDct8_transform(ecg_sig_2+(i*trans_len));
+     FastDct8_transform(ecg_sig_2+(i*trans_len));
      for(j = 0; j < 8; j++){
        PrintFloat((ecg_sig_2+(i*trans_len))[j]);
      }
