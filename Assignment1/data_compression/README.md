@@ -16,7 +16,7 @@ Other functions and static variables can be commented to improve performance and
 Second one is fast DCT transform. In this mode, we don't need `dct_mtx` and `ecg_sig`. Instead, we use `ecg_sig_2` and  `FastDct8_transform` function, which needs static variable `S` and `A`.  To run in this mode, we need to UNCOMMENT line 140-143.
 
 ```c
-	// use fast dct algorithm     
+// use fast dct algorithm     
      FastDct8_transform(ecg_sig_2+(i*trans_len));
      for(j = 0; j < 8; j++){
        PrintFloat((ecg_sig_2+(i*trans_len))[j]);
